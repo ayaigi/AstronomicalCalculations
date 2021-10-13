@@ -1,0 +1,76 @@
+package com.example.astronomicalcalculations.intern.units
+
+import com.example.astronomicalcalculations.intern.units.blueprint.astrUnitInter
+import com.example.astronomicalcalculations.intern.units.blueprint.astrUnit
+import com.example.astronomicalcalculations.intern.units.blueprint.toLongExept
+import java.time.LocalTime
+import kotlin.math.abs
+
+/**
+ * value in milli Seconds
+ */
+internal open class Hours(override var value: Long) : astrUnit(value), astrUnitInter {
+    private constructor(value: Double) : this(value.toLongExept())
+
+    companion object {
+        private const val HOURS_MAX_VALUE = 24 * 60 * 60 * 1000L - 1
+        fun fromLocalTime(v: LocalTime) = Hours(v.toNanoOfDay() / (10E5).toLong())  //v.run {of(hour, minute, second, (nano / 10E6).toInt())}
+        fun of(hours: Int, minute: Int, second: Int, millis: Int = 0, negative: Boolean = false): Hours {
+            val degrees = abs(hours)
+            val min = degrees * 60L + minute
+            val sec = min * 60 + second
+            val mil = sec * 1000 + millis
+            return Hours(mil) * if(negative) -1 else 1
+        }
+        fun fromDecimal(v: Double) = Hours(v * (60 * 60 * 1000))
+        fun fromDecimal(v: Int) = Hours(v * (60 * 60 * 1000).toDouble())
+    }
+    fun averageCircle(v: Hours) = (averageCircle(toDegrees())).toHours()
+    fun averageStartEnd(v: Hours) = (averageStartEnd(toDegrees())).toHours()
+
+    fun toLocalTime() : LocalTime{
+        return LocalTime.ofNanoOfDay(value * (10E5).toLong())
+    }
+
+    fun average(v: Hours): Hours {
+        return (v + this) / 2
+    }
+
+    override fun toString(): String {
+        return super.toString()
+    }
+
+    fun correct24() = Hours(correctFor(HOURS_MAX_VALUE))
+
+    fun toDegrees() = Degrees(times(15).value)
+
+    operator fun plus(v: Hours) = Hours(value.plus(v.value))
+
+    operator fun minus(v: Hours) = Hours(value.minus(v.value))
+
+    operator fun plusAssign(v: Hours) {
+        Hours(value.plus(v.value))
+    }
+
+    operator fun minusAssign(v: Hours) {
+        Hours(value.minus(v.value))
+    }
+
+    operator fun times(v: Double) = Hours(value.times(v))
+
+    operator fun times(v: Int) = Hours(value.times(v))
+
+    operator fun div(v: Double) = Hours(value.div(v))
+
+    operator fun div(v: Int) = Hours(value.div(v))
+
+    operator fun dec() = Hours(value.dec())
+
+    operator fun inc() = Hours(value.inc())
+
+    operator fun compareTo(v: Hours) = value.compareTo(v.value)
+
+    operator fun unaryMinus() = Hours(value.unaryMinus())
+}
+internal fun Double.hour() = Hours.fromDecimal(this)
+internal fun Int.hour() = Hours.fromDecimal(this)
