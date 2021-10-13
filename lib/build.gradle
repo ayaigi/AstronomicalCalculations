@@ -50,7 +50,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.ayaigi'
                 artifactId = 'AstronomicalCalculations'
-                version = '5.2.5'
+                version = '5.2.8'
             }
         }
     }
