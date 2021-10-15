@@ -2,6 +2,7 @@
 
 
 AstronomicalCalculations is a library for astronomical calulations, duh.
+
 The Formulars are from: 
  - Duffett Smith, Peter: Practical astronomy with your calculator (1979) 
  Cambridge: Cambridge University Press
