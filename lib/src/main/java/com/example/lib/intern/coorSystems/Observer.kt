@@ -1,5 +1,6 @@
-package com.example.astronomicalcalculations.intern.coorSystems
+package com.example.lib.intern.coorSystems
 
-import com.example.astronomicalcalculations.intern.units.Degrees
+import com.example.lib.intern.units.Degrees
 
+@Deprecated("")
 internal data class Observer(val lat: Degrees, val lon: Degrees, val alt: Int)

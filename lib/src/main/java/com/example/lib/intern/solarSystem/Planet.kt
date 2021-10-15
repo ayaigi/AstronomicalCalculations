@@ -1,14 +1,15 @@
-package com.example.astronomicalcalculations.intern.solarSystem
+package com.example.lib.intern.solarSystem
 
-import com.example.astronomicalcalculations.intern.coorSystems.EclipticSys
-import com.example.astronomicalcalculations.intern.coorSystems.EquatorialSys
-import com.example.astronomicalcalculations.intern.timeSystems.SiderealTime
-import com.example.astronomicalcalculations.intern.timeSystems.epochDay1980
-import com.example.astronomicalcalculations.intern.timeSystems.julianDay
-import com.example.astronomicalcalculations.intern.units.Degrees
-import com.example.astronomicalcalculations.intern.units.Hours
-import com.example.astronomicalcalculations.intern.units.deg
-import com.example.astronomicalcalculations.intern.units.hour
+import com.example.lib.intern.coorSystems.EclipticSys
+import com.example.lib.intern.coorSystems.EquatorialSys
+import com.example.lib.intern.timeSystems.SiderealTime
+import com.example.lib.intern.timeSystems.epochDay1980
+import com.example.lib.intern.timeSystems.julianDay
+import com.example.lib.intern.units.Degrees
+import com.example.lib.intern.units.Hours
+import com.example.lib.intern.units.deg
+import com.example.lib.intern.math.Distance
+import com.example.lib.intern.units.hour
 import java.time.LocalDateTime
 import kotlin.math.pow
 
@@ -19,7 +20,7 @@ internal class Planet : SolarSystem {
     override val position: EclipticSys by lazy {
         position()
     }
-    override val distance: Double by lazy {
+    override val distance: Distance by lazy {
         distance()
     }
     private val posiValues: planetValues by lazy {
@@ -144,10 +145,10 @@ internal class Planet : SolarSystem {
         }
     }
 
-    private fun distance(): Double {
+    private fun distance(): Distance {
         val (r, R, l, L) = posiValues
         val p2 = R.pow(2) + r.pow(2) - (2 * R * r * (l - L).cos())
-        return p2.pow(0.5)
+        return Distance.fromAU(p2.pow(0.5))
     }
 
     override fun riseAndSet(lat: Degrees, lon: Degrees, altitude: Double): EquatorialSys.riseAndSet {

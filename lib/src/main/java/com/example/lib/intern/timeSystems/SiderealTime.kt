@@ -1,10 +1,8 @@
-package com.example.astronomicalcalculations.intern.timeSystems
+package com.example.lib.intern.timeSystems
 
-import com.example.astronomicalcalculations.intern.units.Degrees
-import com.example.astronomicalcalculations.intern.units.Hours
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.OffsetDateTime
+import com.example.lib.intern.units.Degrees
+import com.example.lib.intern.units.Hours
+import java.time.*
 import java.time.temporal.ChronoField
 import kotlin.math.pow
 
@@ -39,13 +37,13 @@ internal class SiderealTime(value: Long): Hours(value) {
             return B
         }
     }
-    fun convertToLocalTime(date: LocalDate, lon: Degrees): LocalTime {
+    fun convertToLocalTime(date: LocalDate, lon: Degrees): OffsetTime {
         val gst = (this - lon.toHours()).correct24()
         val gmt = run {
             val T0 = (date.dayOfYear * 0.0657098) - ParaB(date)
             val T1 = (gst - fromDecimal(T0)).correct24() * 0.99727
             T1
         }
-        return gmt.toLocalTime()
+        return gmt.toLocalTime().atOffset(ZoneOffset.UTC)
     }
 }

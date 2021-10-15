@@ -1,16 +1,17 @@
-package com.example.astronomicalcalculations.port
+package com.example.lib.port
 
-import com.example.astronomicalcalculations.intern.coorSystems.Observer
-import com.example.astronomicalcalculations.intern.units.Degrees
-import com.example.astronomicalcalculations.intern.units.Hours
-import com.example.astronomicalcalculations.intern.units.deg
+import com.example.lib.intern.coorSystems.Observer
+import com.example.lib.intern.units.Degrees
+import com.example.lib.intern.units.Hours
+import com.example.lib.intern.units.deg
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-public class AstrInput private constructor(private val OffsetDateTime: OffsetDateTime, private val Observer: Observer) {
+@Deprecated("use 'Astronomy'-class")
+class AstrInput private constructor(private val OffsetDateTime: OffsetDateTime, private val Observer: Observer) {
 
     fun calc(target: Int): Calculations {
         return Calculations(target, OffsetDateTime, Observer)
@@ -55,12 +56,12 @@ public class AstrInput private constructor(private val OffsetDateTime: OffsetDat
             val lat = latCheck(lat)
             val lon = lonCheck(lon)
             val alt = altCheck(alt)
-            if (!(date.isNull() || time.isNull() || tz.isNull() || lat.isNull() || lon.isNull() || alt.isNull())) {
+            return if (!(date.isNull() || time.isNull() || tz.isNull() || lat.isNull() || lon.isNull() || alt.isNull())) {
                 val offsetDateTime = OffsetDateTime.of(date, time, tz)
                 val observer = Observer(lat!!, lon!!, alt!!)
-                return AstrInput(offsetDateTime, observer)
+                AstrInput(offsetDateTime, observer)
             } else {
-                return null
+                null
             }
         }
 

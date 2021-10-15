@@ -1,6 +1,6 @@
-package com.example.astronomicalcalculations.intern.math
+package com.example.lib.intern.math
 
-class Primefactor {
+internal class Primefactor {
     companion object {
 
     }

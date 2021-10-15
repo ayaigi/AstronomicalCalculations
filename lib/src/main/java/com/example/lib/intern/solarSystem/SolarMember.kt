@@ -1,4 +1,4 @@
-package com.example.astronomicalcalculations.intern.solarSystem
+package com.example.lib.intern.solarSystem
 
 /*
 enum class SolarMember(id: Int) {

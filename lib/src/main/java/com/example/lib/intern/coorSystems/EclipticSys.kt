@@ -1,22 +1,22 @@
-package com.example.astronomicalcalculations.intern.coorSystems
+package com.example.lib.intern.coorSystems
 
-import com.example.astronomicalcalculations.intern.timeSystems.julianDay
-import com.example.astronomicalcalculations.intern.units.Degrees
+import com.example.lib.intern.timeSystems.julianDay
+import com.example.lib.intern.units.Degrees
 import java.time.LocalDateTime
 import kotlin.math.pow
 
-internal data class EclipticSys(val lambda: Degrees, val betta: Degrees): CoorSystems(lambda, betta) {
+data class EclipticSys(val lambda: Degrees, val betta: Degrees): CoorSystems(lambda, betta) {
     override fun toString(): String {
         return super.toString()
     }
-    companion object {
+    internal companion object {
         fun epsilon(dateTime: LocalDateTime): Degrees {
             val t = (dateTime.julianDay() - 2415020) / 36525.0
             val delta = Degrees.fromDecimal((46.845 * t + 0.0059 * t.pow(2) - 0.00181 * t.pow(3)) / 3600.0)
             return Degrees.fromDecimal(23.452294) - delta
         }
     }
-    fun toEquatorialSys(dateTime: LocalDateTime): EquatorialSys {
+    internal fun toEquatorialSys(dateTime: LocalDateTime): EquatorialSys {
         val epsilon = epsilon(dateTime)
         val declination = run {
             val p1 = betta.sin() * epsilon.cos()

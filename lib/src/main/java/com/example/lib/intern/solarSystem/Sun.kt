@@ -1,13 +1,14 @@
-package com.example.astronomicalcalculations.intern.solarSystem
+package com.example.lib.intern.solarSystem
 
-import com.example.astronomicalcalculations.intern.coorSystems.EclipticSys
-import com.example.astronomicalcalculations.intern.coorSystems.EquatorialSys
-import com.example.astronomicalcalculations.intern.timeSystems.SiderealTime
-import com.example.astronomicalcalculations.intern.timeSystems.epochDay1980
-import com.example.astronomicalcalculations.intern.units.Degrees
-import com.example.astronomicalcalculations.intern.units.Hours
-import com.example.astronomicalcalculations.intern.units.deg
-import com.example.astronomicalcalculations.intern.units.hour
+import com.example.lib.intern.coorSystems.EclipticSys
+import com.example.lib.intern.coorSystems.EquatorialSys
+import com.example.lib.intern.timeSystems.SiderealTime
+import com.example.lib.intern.timeSystems.epochDay1980
+import com.example.lib.intern.units.Degrees
+import com.example.lib.intern.units.Hours
+import com.example.lib.intern.units.deg
+import com.example.lib.intern.math.Distance
+import com.example.lib.intern.units.hour
 import java.time.LocalDateTime
 import kotlin.math.*
 
@@ -46,7 +47,7 @@ internal class Sun(override val dateTime: LocalDateTime) : SolarSystem {
     override val position: EclipticSys by lazy {
         position()
     }
-    override val distance: Double by lazy {
+    override val distance: Distance by lazy {
         distance()
     }
     val posiValues: SunValues by lazy {
@@ -57,8 +58,8 @@ internal class Sun(override val dateTime: LocalDateTime) : SolarSystem {
         return EclipticSys(posiValues.Lambda, 0.0.deg())
     }
 
-    private fun distance(): Double {
-        return r0 / paraF
+    private fun distance(): Distance {
+        return Distance.fromKm(r0 / paraF)
     }
     val angularSize: Degrees by lazy {
         angularSize()

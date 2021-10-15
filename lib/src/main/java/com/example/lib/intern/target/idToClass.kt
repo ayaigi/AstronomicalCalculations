@@ -1,13 +1,13 @@
-package com.example.astronomicalcalculations.intern.target
+package com.example.lib.intern.target
 
-import com.example.astronomicalcalculations.intern.constellation.Constellation
-import com.example.astronomicalcalculations.intern.solarSystem.SolarSystem
-import com.example.astronomicalcalculations.intern.solarSystem.Moon
-import com.example.astronomicalcalculations.intern.solarSystem.Planet
-import com.example.astronomicalcalculations.intern.solarSystem.Sun
+import com.example.lib.intern.constellation.Constellation
+import com.example.lib.intern.solarSystem.SolarSystem
+import com.example.lib.intern.solarSystem.Moon
+import com.example.lib.intern.solarSystem.Planet
+import com.example.lib.intern.solarSystem.Sun
 import java.time.LocalDateTime
 
-internal fun idToClass(id: Int, dateTime: LocalDateTime): Target {
+internal fun idToClass(id: Int, dateTime: LocalDateTime): TargetInterface {
     return when (id) {
         in 0..9 -> solarInvoke(id, dateTime)
         in 101..188 -> Constellation(id, dateTime)

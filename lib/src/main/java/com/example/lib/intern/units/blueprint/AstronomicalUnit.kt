@@ -1,13 +1,13 @@
-package com.example.astronomicalcalculations.intern.units.blueprint
+package com.example.lib.intern.units.blueprint
 
-import com.example.astronomicalcalculations.intern.units.DMMs
-import com.example.astronomicalcalculations.intern.units.Degrees
-import com.example.astronomicalcalculations.intern.units.deg
+import com.example.lib.intern.units.DMMs
+import com.example.lib.intern.units.Degrees
+import com.example.lib.intern.units.deg
 import kotlin.math.abs
 import kotlin.math.sign
 
-internal open class astrUnit(override var value: Long) : astrUnitInter {
-    constructor(value: Double) : this(value.toLongExept())
+open class AstronomicalUnit(override var value: Long) : astrUnitInter {
+    internal constructor(value: Double) : this(value.toLongExept())
 
     override fun toString(): String {
         return toDecimal().toString()
@@ -18,11 +18,11 @@ internal open class astrUnit(override var value: Long) : astrUnitInter {
         return Degrees(value)
     }
 
-    fun toUnit(): astrUnit {
-        return astrUnit(value)
+    internal fun toUnit(): AstronomicalUnit {
+        return AstronomicalUnit(value)
     }
 
-    fun correctFor(maxValue: Long): Long {
+    internal fun correctFor(maxValue: Long): Long {
         var h = value
         while (h !in 0..maxValue) {
             when {
@@ -33,7 +33,7 @@ internal open class astrUnit(override var value: Long) : astrUnitInter {
         return h
     }
 
-    open fun averageStartEnd(end: Degrees): Degrees {
+    internal open fun averageStartEnd(end: Degrees): Degrees {
         val start = toDeg()
         val div = (end - start).correct360()
 
@@ -41,9 +41,9 @@ internal open class astrUnit(override var value: Long) : astrUnitInter {
         return res.correct360()
     }
 
-    open fun averageCircle(v: Degrees): Degrees {
+    internal open fun averageCircle(v: Degrees): Degrees {
         val x = toDeg()
-        val div = (x - v).abs()
+        val div = (x - v).absD()
         return if (div > 180.deg()) {
             when {
                 x > v -> {
@@ -73,8 +73,8 @@ internal open class astrUnit(override var value: Long) : astrUnitInter {
          */
     }
 
-    fun abs(v: astrUnit): Long {
-        return abs(v.value)
+    fun abs(): Long {
+        return abs(value)
     }
 
     fun toString(pattern: String): String {
@@ -112,7 +112,7 @@ internal open class astrUnit(override var value: Long) : astrUnitInter {
     /**
      * int, min, milliSec
      */
-    fun toDMMs(): DMMs {
+    internal fun toDMMs(): DMMs {
         var deci = toDecimal()
         val sign = deci.sign
         deci = abs(deci)
@@ -123,7 +123,7 @@ internal open class astrUnit(override var value: Long) : astrUnitInter {
         return DMMs(sign, int, min, milliSec)
     }
 
-    fun compare() = toDMMs().run { listOf(sign, int, min, milliSec / 1000) }
+    internal fun compare() = toDMMs().run { listOf(sign, int, min, milliSec / 1000) }
 
     fun toDecimal() = value / (1000 * 60 * 60).toDouble()
     fun toDecimalDay() = value / (24 * 1000 * 60 * 60).toDouble()

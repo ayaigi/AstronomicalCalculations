@@ -1,4 +1,4 @@
-package com.example.astronomicalcalculations.intern.units.blueprint
+package com.example.lib.intern.units.blueprint
 
 private data class astrUnitsBluePrintsInter(override var value: Long) : astrUnitInter {
     constructor(value: Double) : this(value.toLongExept())

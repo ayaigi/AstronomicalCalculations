@@ -1,13 +1,14 @@
-package com.example.astronomicalcalculations.intern.solarSystem
+package com.example.lib.intern.solarSystem
 
-import com.example.astronomicalcalculations.intern.coorSystems.EclipticSys
-import com.example.astronomicalcalculations.intern.target.Target
+import com.example.lib.intern.coorSystems.EclipticSys
+import com.example.lib.intern.math.Distance
+import com.example.lib.intern.target.TargetInterface
 
-internal interface SolarSystem : Target {
+internal interface SolarSystem : TargetInterface {
 
     override val position: EclipticSys
 
-    val distance: Double
+    val distance: Distance
 
     fun phase(): Pair<Double, Boolean>
 }

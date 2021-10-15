@@ -1,17 +1,17 @@
-package com.example.astronomicalcalculations.intern.coorSystems
+package com.example.lib.intern.coorSystems
 
-import com.example.astronomicalcalculations.intern.timeSystems.SiderealTime
-import com.example.astronomicalcalculations.intern.units.Degrees
-import com.example.astronomicalcalculations.intern.units.Hours
-import com.example.astronomicalcalculations.intern.units.deg
-import com.example.astronomicalcalculations.intern.units.hour
+import com.example.lib.intern.timeSystems.SiderealTime
+import com.example.lib.intern.units.Degrees
+import com.example.lib.intern.units.Hours
+import com.example.lib.intern.units.deg
+import com.example.lib.intern.units.hour
 import java.time.LocalDateTime
 
-internal data class EquatorialSys(val rightAscension: Hours, val declination: Degrees): CoorSystems(rightAscension, declination){
+data class EquatorialSys(val rightAscension: Hours, val declination: Degrees): CoorSystems(rightAscension, declination){
     override fun toString(): String {
         return super.toString()
     }
-    fun toHorizonSys(lat: Degrees, ST: SiderealTime): HorizonSys {
+    internal fun toHorizonSys(lat: Degrees, ST: SiderealTime): HorizonSys {
         val hA = (ST - rightAscension).toDegrees()
         val altitude = run {
             val t1 = declination.sin() * lat.sin()
@@ -28,7 +28,7 @@ internal data class EquatorialSys(val rightAscension: Hours, val declination: De
         }
         return HorizonSys(altitude, azimuth)
     }
-    fun toEclipticSys(dateTime: LocalDateTime): EclipticSys {
+    internal fun toEclipticSys(dateTime: LocalDateTime): EclipticSys {
         val rightAscension = rightAscension.toDegrees()
         val epsilon = EclipticSys.epsilon(dateTime)
 
@@ -48,7 +48,7 @@ internal data class EquatorialSys(val rightAscension: Hours, val declination: De
         }
         return EclipticSys(Betta, Lambda)
     }
-    fun riseAndSet(lat: Degrees, lon: Degrees): riseAndSet {
+    internal fun riseAndSet(lat: Degrees, lon: Degrees): riseAndSet {
         val rightAscension = rightAscension.toDegrees()
 
         val Ar = run {
@@ -68,10 +68,10 @@ internal data class EquatorialSys(val rightAscension: Hours, val declination: De
 
         return riseAndSet(STr, STs, Ar, As, hA)
     }
-    data class riseAndSet(val STr: SiderealTime, val STs: SiderealTime, val Ar: Degrees, val As: Degrees, val hA: Hours) {
+    internal data class riseAndSet(val STr: SiderealTime, val STs: SiderealTime, val Ar: Degrees, val As: Degrees, val hA: Hours) {
         fun toList() = listOf(STr, STs, Ar, As, hA)
     }
-    fun correctParallax(parallax: Degrees, lat: Degrees, hourAngle: Degrees, altitude: Double): EquatorialSys {
+    internal fun correctParallax(parallax: Degrees, lat: Degrees, hourAngle: Degrees, altitude: Double): EquatorialSys {
         val r = (1 / parallax.sin())
         return correctParallax(r, lat, hourAngle, altitude)
     }
@@ -79,7 +79,7 @@ internal data class EquatorialSys(val rightAscension: Hours, val declination: De
     /**
      * r in Earth-radii
      */
-    fun correctParallax(r: Double, lat: Degrees, hourAngle: Degrees, altitude: Double): EquatorialSys {
+    internal fun correctParallax(r: Double, lat: Degrees, hourAngle: Degrees, altitude: Double): EquatorialSys {
         val rightAscension = rightAscension.toDegrees()
 
         val (cos, sin) = run {

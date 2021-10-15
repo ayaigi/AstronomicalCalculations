@@ -1,21 +1,21 @@
-package com.example.astronomicalcalculations.intern.units
-import com.example.astronomicalcalculations.intern.units.blueprint.astrUnitInter
-import com.example.astronomicalcalculations.intern.units.blueprint.astrUnit
-import com.example.astronomicalcalculations.intern.units.blueprint.toLongExept
+package com.example.lib.intern.units
+import com.example.lib.intern.units.blueprint.astrUnitInter
+import com.example.lib.intern.units.blueprint.AstronomicalUnit
+import com.example.lib.intern.units.blueprint.toLongExept
 import java.lang.Exception
 import kotlin.math.*
 
 /**
  * value in milli Seconds
  */
-internal class Degrees(override var value: Long) : astrUnit(value), astrUnitInter {
+class Degrees(override var value: Long) : AstronomicalUnit(value), astrUnitInter {
     private constructor(value: Double) : this(value.toLongExept())
 
     override fun toString(): String {
         return super.toString("D.H")
     }
 
-    companion object {
+    internal companion object {
         fun fromDecimal(v: Double) = Degrees(v * (60 * 60 * 1000))
         fun fromDecimal(v: Int) = Degrees(v * (60 * 60 * 1000).toDouble())
         fun aSin(v: Double) = fromDecimal(fromRadians(asin(v)))
@@ -53,53 +53,53 @@ internal class Degrees(override var value: Long) : astrUnit(value), astrUnitInte
             throw Exception("Error: Remove Ambiguity")
         }
     }
-    fun abs(): Degrees {
-        return Degrees(abs(this))
+    fun absD(): Degrees {
+        return Degrees(super.abs())
     }
-    override fun averageCircle(v: Degrees) = super.averageCircle(v)
-    fun average(v: Degrees): Degrees {
+    internal override fun averageCircle(v: Degrees) = super.averageCircle(v)
+    internal fun average(v: Degrees): Degrees {
         return (v + this) / 2
     }
 
-    fun correct360() = Degrees(correctFor(DEGREES_MAX_VALUE))
+    internal fun correct360() = Degrees(correctFor(DEGREES_MAX_VALUE))
 
-    fun sin() = kotlin.math.sin(toRadians())
+    internal fun sin() = kotlin.math.sin(toRadians())
 
-    fun cos() = kotlin.math.cos(toRadians())
+    internal fun cos() = kotlin.math.cos(toRadians())
 
-    fun tan() = kotlin.math.tan(toRadians())
+    internal fun tan() = kotlin.math.tan(toRadians())
 
-    fun toHours() = Hours(div(15).value)
+    internal fun toHours() = Hours(div(15).value)
 
-    fun toRadians() = toDecimal() * (PI / 180)
+    internal fun toRadians() = toDecimal() * (PI / 180)
 
-    operator fun plus(v: Degrees) = Degrees(value.plus(v.value))
+    internal operator fun plus(v: Degrees) = Degrees(value.plus(v.value))
 
-    operator fun minus(v: Degrees) = Degrees(value.minus(v.value))
+    internal operator fun minus(v: Degrees) = Degrees(value.minus(v.value))
 
-    operator fun plusAssign(v: Degrees) {
+    internal operator fun plusAssign(v: Degrees) {
         Degrees(value.plus(v.value))
     }
 
-    operator fun minusAssign(v: Degrees) {
+    internal operator fun minusAssign(v: Degrees) {
         Degrees(value.minus(v.value))
     }
 
-    operator fun times(v: Double) = Degrees(value.times(v))
+    internal operator fun times(v: Double) = Degrees(value.times(v))
 
-    operator fun times(v: Int) = Degrees(value.times(v))
+    internal operator fun times(v: Int) = Degrees(value.times(v))
 
-    operator fun div(v: Double) = Degrees(value.div(v))
+    internal operator fun div(v: Double) = Degrees(value.div(v))
 
-    operator fun div(v: Int) = Degrees(value.div(v))
+    internal operator fun div(v: Int) = Degrees(value.div(v))
 
-    operator fun dec() = Degrees(value.dec())
+    internal operator fun dec() = Degrees(value.dec())
 
-    operator fun inc() = Degrees(value.inc())
+    internal operator fun inc() = Degrees(value.inc())
 
-    operator fun compareTo(v: Degrees) = value.compareTo(v.value)
+    internal operator fun compareTo(v: Degrees) = value.compareTo(v.value)
 
-    operator fun unaryMinus() = Degrees(value.unaryMinus())
+    internal operator fun unaryMinus() = Degrees(value.unaryMinus())
 }
 internal fun Double.deg() = Degrees.fromDecimal(this)
 internal fun Int.deg() = Degrees.fromDecimal(this)

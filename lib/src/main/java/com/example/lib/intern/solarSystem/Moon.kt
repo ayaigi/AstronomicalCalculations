@@ -1,11 +1,12 @@
-package com.example.astronomicalcalculations.intern.solarSystem
+package com.example.lib.intern.solarSystem
 
-import com.example.astronomicalcalculations.intern.coorSystems.EclipticSys
-import com.example.astronomicalcalculations.intern.coorSystems.EquatorialSys
-import com.example.astronomicalcalculations.intern.timeSystems.SiderealTime
-import com.example.astronomicalcalculations.intern.timeSystems.epochDay1980
-import com.example.astronomicalcalculations.intern.units.Degrees
-import com.example.astronomicalcalculations.intern.units.hour
+import com.example.lib.intern.coorSystems.EclipticSys
+import com.example.lib.intern.coorSystems.EquatorialSys
+import com.example.lib.intern.timeSystems.SiderealTime
+import com.example.lib.intern.timeSystems.epochDay1980
+import com.example.lib.intern.units.Degrees
+import com.example.lib.intern.math.Distance
+import com.example.lib.intern.units.hour
 import java.time.LocalDateTime
 import kotlin.math.pow
 
@@ -53,7 +54,7 @@ internal class Moon (override val dateTime: LocalDateTime) : SolarSystem {
         posiValues()
     }
 
-    override val distance: Double by lazy {
+    override val distance: Distance by lazy {
         distance()
     }
 
@@ -110,7 +111,7 @@ internal class Moon (override val dateTime: LocalDateTime) : SolarSystem {
 
     override fun riseAndSet(lat: Degrees, lon: Degrees, altitude: Double): EquatorialSys.riseAndSet {
         val (riSe0, riSe24) = run {
-            val r = distanceInEarth()
+            val r = distance.toEarthRadii()
             val date0 = dateTime.toLocalDate().atStartOfDay()
             val date24 = dateTime.toLocalDate().atTime(12,0)
 
@@ -139,20 +140,17 @@ internal class Moon (override val dateTime: LocalDateTime) : SolarSystem {
     }
 
     fun distanceInOrbit (): Double {
-        return distance / a
+        return (distance.toKm() / a).toDouble()
     }
     /** in km */
-    private fun distance(): Double {
+    private fun distance(): Distance {
         val y = a * (1 - e.pow(2))
-        val x = {
+        val x = run {
             val (Mm, _, _, _, Ec) = posiValues()
             val p1 = Mm + Ec
             val p2 = p1.cos() * e
             1 + p2
-        }()
-        return y / x
-    }
-    fun distanceInEarth(): Double {
-        return distance / 6378.16
+        }
+        return Distance.fromKm(y / x)
     }
 }

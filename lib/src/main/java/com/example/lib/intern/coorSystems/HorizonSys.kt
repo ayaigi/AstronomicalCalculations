@@ -1,13 +1,13 @@
-package com.example.astronomicalcalculations.intern.coorSystems
+package com.example.lib.intern.coorSystems
 
-import com.example.astronomicalcalculations.intern.timeSystems.SiderealTime
-import com.example.astronomicalcalculations.intern.units.Degrees
+import com.example.lib.intern.timeSystems.SiderealTime
+import com.example.lib.intern.units.Degrees
 
-internal data class HorizonSys(val azimuth: Degrees, val altitude: Degrees): CoorSystems(azimuth, altitude){
+data class HorizonSys(val azimuth: Degrees, val altitude: Degrees): CoorSystems(azimuth, altitude){
     override fun toString(): String {
         return super.toString()
     }
-    fun toEquatorialSys(lat: Degrees, ST: SiderealTime): EquatorialSys {
+    internal fun toEquatorialSys(lat: Degrees, ST: SiderealTime): EquatorialSys {
         val declination = run {
             val t1 = altitude.sin() * lat.sin()
             val t2 = altitude.cos() * lat.cos() * azimuth.cos()

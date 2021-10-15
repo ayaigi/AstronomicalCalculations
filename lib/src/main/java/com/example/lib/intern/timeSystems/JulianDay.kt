@@ -1,6 +1,6 @@
-package com.example.astronomicalcalculations.intern.timeSystems
+package com.example.lib.intern.timeSystems
 
-import com.example.astronomicalcalculations.intern.units.Hours
+import com.example.lib.intern.units.Hours
 import java.time.LocalDateTime
 import java.time.temporal.JulianFields
 

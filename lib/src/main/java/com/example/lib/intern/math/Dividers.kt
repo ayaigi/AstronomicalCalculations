@@ -1,8 +1,8 @@
-package com.example.astronomicalcalculations.intern.math
+package com.example.lib.intern.math
 
 import kotlin.math.abs
 
-class Dividers(org: Double) {
+internal class Dividers(org: Double) {
     private val int = org.toInt()
     private val fraction = org - int
     fun find(precision: Int): Triple<Int, Int, Double>? {

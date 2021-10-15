@@ -1,7 +1,7 @@
 package com.example.astronomicalcalculations.intern.constellation
 
-import com.example.astronomicalcalculations.intern.units.Hours
-import com.example.astronomicalcalculations.intern.units.Degrees
+import com.example.lib.intern.units.Hours
+import com.example.lib.intern.units.Degrees
 import kotlin.math.absoluteValue
 
 

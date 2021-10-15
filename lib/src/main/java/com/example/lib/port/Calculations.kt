@@ -1,24 +1,23 @@
-package com.example.astronomicalcalculations.port
+package com.example.lib.port
 
-import com.example.astronomicalcalculations.intern.constellation.Constellation
-import com.example.astronomicalcalculations.intern.coorSystems.EclipticSys
-import com.example.astronomicalcalculations.intern.coorSystems.EquatorialSys
-import com.example.astronomicalcalculations.intern.coorSystems.HorizonSys
-import com.example.astronomicalcalculations.intern.coorSystems.Observer
-import com.example.astronomicalcalculations.intern.solarSystem.SolarSystem
-import com.example.astronomicalcalculations.intern.target.idToClass
-import com.example.astronomicalcalculations.port.simpleAstrUnit
-import com.example.astronomicalcalculations.intern.timeSystems.SiderealTime as ST
+import com.example.lib.intern.constellation.Constellation
+import com.example.lib.intern.coorSystems.EclipticSys
+import com.example.lib.intern.coorSystems.EquatorialSys
+import com.example.lib.intern.coorSystems.HorizonSys
+import com.example.lib.intern.coorSystems.Observer
+import com.example.lib.intern.solarSystem.SolarSystem
+import com.example.lib.intern.target.idToClass
+import com.example.lib.intern.timeSystems.SiderealTime as ST
 import java.time.OffsetDateTime
 
+@Deprecated("use AstronomicalResults", level = DeprecationLevel.WARNING)
+class Calculations internal constructor(id: Int, OffsetDateTime: OffsetDateTime, private val Observer: Observer){
 
-public class Calculations internal constructor(id: Int, OffsetDateTime: OffsetDateTime, private val Observer: Observer){
     private val dateTime = OffsetDateTime.toLocalDateTime()
     private val target = idToClass(id, dateTime)
 
     /**
      * Azimuth, Altitude
-     *
      */
     val position: Pair<simpleAstrUnit, simpleAstrUnit> by lazy {
         val (A, a) = horizonSys
@@ -41,7 +40,7 @@ public class Calculations internal constructor(id: Int, OffsetDateTime: OffsetDa
     }
     fun distance(): Double? {
         return when(target) {
-            is SolarSystem -> target.distance
+            is SolarSystem -> target.distance.toKm().toDouble()
             is Constellation -> null
             else -> throw Exception("invalid: $target")
         }
@@ -64,7 +63,7 @@ public class Calculations internal constructor(id: Int, OffsetDateTime: OffsetDa
         equatorialSys()
     }
     private val siderealTime: ST by lazy {
-        com.example.astronomicalcalculations.intern.timeSystems.SiderealTime.fromOffsetDateTime(OffsetDateTime, Observer.lon)
+        com.example.lib.intern.timeSystems.SiderealTime.fromOffsetDateTime(OffsetDateTime, Observer.lon)
     }
     private val horizonSys: HorizonSys by lazy {
         horizonSys()

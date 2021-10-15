@@ -1,6 +1,6 @@
-package com.example.astronomicalcalculations.intern.coorSystems
+package com.example.lib.intern.coorSystems
 
-import com.example.astronomicalcalculations.intern.units.Degrees
+import com.example.lib.intern.units.Degrees
 import java.time.LocalDateTime
 
 internal class EquatEclipList(val dateTime: LocalDateTime) {

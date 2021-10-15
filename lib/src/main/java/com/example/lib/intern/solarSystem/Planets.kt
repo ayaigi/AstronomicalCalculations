@@ -1,6 +1,6 @@
-package com.example.astronomicalcalculations.intern.solarSystem
+package com.example.lib.intern.solarSystem
 
-import com.example.astronomicalcalculations.intern.units.Degrees
+import com.example.lib.intern.units.Degrees
 
 internal fun getPlanet(id: Int) = Planets.values()[id - 1]
 
