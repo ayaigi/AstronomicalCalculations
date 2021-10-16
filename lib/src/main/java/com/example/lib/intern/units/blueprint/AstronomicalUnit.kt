@@ -11,7 +11,14 @@ open class AstronomicalUnit(override var value: Long) : astrUnitInter {
 
     override fun toString(): String {
         return toDecimal().toString()
-        return toDMMs().run { "$sign: ${int} ${min}m ${milliSec}ms" }
+        //return toDMMs().run { "$sign: ${int} ${min}m ${milliSec}ms" }
+    }
+    fun milliSec() = value
+
+    companion object{
+        fun fromDecimal(v: Int) = AstronomicalUnit(v * (60 * 60 * 1000L))
+        fun fromDecimal(v: Double) = AstronomicalUnit(v * (60 * 60 * 1000L))
+        fun fromMilliSec(v: Long) = AstronomicalUnit(v)
     }
 
     private fun toDeg(): Degrees {
@@ -77,6 +84,17 @@ open class AstronomicalUnit(override var value: Long) : astrUnitInter {
         return abs(value)
     }
 
+    /**
+     * 'D' -> Int
+     *
+     * 'H' -> Fraction
+     *
+     * 'M' -> Minute
+     *
+     * 'S' -> Second
+     *
+     * 'Z' -> Millisecond
+     */
     fun toString(pattern: String): String {
         val DMMs: DMMs by lazy {
             toDMMs()
