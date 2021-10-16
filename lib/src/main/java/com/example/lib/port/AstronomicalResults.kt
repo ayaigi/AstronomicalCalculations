@@ -10,6 +10,7 @@ import com.example.lib.intern.target.TargetChoose
 import com.example.lib.intern.target.idToClass
 import com.example.lib.intern.timeSystems.SiderealTime
 import java.time.OffsetDateTime
+import java.time.OffsetTime
 
 class AstronomicalResults internal constructor(
     targetId: TargetChoose,
@@ -19,6 +20,18 @@ class AstronomicalResults internal constructor(
     private val localDateTime = OffsetDateTime.toUTC()
     private val target = idToClass(targetId.id, localDateTime)
     private val siderealTime = SiderealTime.fromOffsetDateTime(OffsetDateTime, Observer.lon())
+
+    /**
+     * Rise, Set
+     */
+    private fun riseAndSet(): Pair<OffsetTime, OffsetTime> {
+        val (rS, sS, _, _, _) = Observer.run{
+            target.riseAndSet(lat(), lon(), altitude.toDouble())
+        }
+        val rL = rS.convertToLocalTime(localDateTime.toLocalDate(), Observer.lon())
+        val sL = sS.convertToLocalTime(localDateTime.toLocalDate(), Observer.lon())
+        return Pair(rL, sL)
+    }
 
     private val positionEclipticSys: EclipticSys? by lazy {
         positionEclipticSys()
