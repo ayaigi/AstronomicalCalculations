@@ -16,6 +16,13 @@ open class AstronomicalUnit(override var value: Long) : astrUnitInter {
     fun milliSec() = value
 
     companion object{
+	fun of(int: Int, min: Int, sec: Int, milliSec: Int = 0): AstronomicalUnit {
+            val int = abs(int)
+            val min = int * 60L + min
+            val sec = min * 60 + sec
+            val mil = sec * 1000 + milliSec
+            return AstronomicalUnit(mil) * if(negative) -1 else 1
+        }
         fun fromDecimal(v: Int) = AstronomicalUnit(v * (60 * 60 * 1000L))
         fun fromDecimal(v: Double) = AstronomicalUnit(v * (60 * 60 * 1000L))
         fun fromMilliSec(v: Long) = AstronomicalUnit(v)
