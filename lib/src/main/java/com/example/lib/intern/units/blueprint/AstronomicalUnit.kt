@@ -6,7 +6,7 @@ import com.example.lib.intern.units.deg
 import kotlin.math.abs
 import kotlin.math.sign
 
-open class AstronomicalUnit(override var value: Long) : astrUnitInter {
+open class AstronomicalUnit internal constructor(override var value: Long) : astrUnitInter {
     internal constructor(value: Double) : this(value.toLongExept())
 
     override fun toString(): String {
@@ -16,7 +16,7 @@ open class AstronomicalUnit(override var value: Long) : astrUnitInter {
     fun milliSec() = value
 
     companion object{
-	fun of(int: Int, min: Int, sec: Int, milliSec: Int = 0): AstronomicalUnit {
+	fun of(int: Int, min: Int, sec: Int, milliSec: Int = 0, negative: Boolean = false): AstronomicalUnit {
             val int = abs(int)
             val min = int * 60L + min
             val sec = min * 60 + sec
