@@ -9,6 +9,7 @@ import com.example.lib.intern.math.Distance
 import com.example.lib.intern.target.TargetChoose
 import com.example.lib.intern.target.idToClass
 import com.example.lib.intern.timeSystems.SiderealTime
+import com.example.lib.intern.units.blueprint.AstronomicalUnit
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 
@@ -24,8 +25,8 @@ class AstronomicalResults internal constructor(
     /**
      * Rise, Set
      */
-    private fun riseAndSet(): Pair<OffsetTime, OffsetTime> {
-        val (rS, sS, _, _, _) = Observer.run{
+    fun riseAndSet(): Pair<OffsetTime, OffsetTime> {
+        val (rS, sS, _, _, _) = Observer.run {
             target.riseAndSet(lat(), lon(), altitude.toDouble())
         }
         val rL = rS.convertToLocalTime(localDateTime.toLocalDate(), Observer.lon())
@@ -33,11 +34,22 @@ class AstronomicalResults internal constructor(
         return Pair(rL, sL)
     }
 
-    private val positionEclipticSys: EclipticSys? by lazy {
-        positionEclipticSys()
+    /**
+     * Betta: Degrees
+     *
+     * Lambda: Degrees
+     */
+    fun eclipticPosition(): Pair<AstronomicalUnit?, AstronomicalUnit?> {
+        return _positionEclipticSys?.run {
+            Pair(betta.toUnit(), lambda.toUnit())
+        } ?: Pair(null, null)
     }
 
-    private fun positionEclipticSys(): EclipticSys? {
+    private val _positionEclipticSys: EclipticSys? by lazy {
+        _positionEclipticSys()
+    }
+
+    private fun _positionEclipticSys(): EclipticSys? {
         return if (target is SolarSystem) {
             this.target.position
         } else {
@@ -45,40 +57,64 @@ class AstronomicalResults internal constructor(
         }
     }
 
-    private val positionEquatorialSys: EquatorialSys by lazy {
-        positionEquatorialSys()
+    /**
+     * RightAscension: Hours
+     *
+     * Declination: Degrees
+     */
+    fun equatorialPosition(): Pair<AstronomicalUnit?, AstronomicalUnit?> {
+        return _positionEquatorialSys.run {
+            Pair(rightAscension.toUnit(), declination.toUnit())
+        }
     }
 
-    private fun positionEquatorialSys(): EquatorialSys {
+    private val _positionEquatorialSys: EquatorialSys by lazy {
+        _positionEquatorialSys()
+    }
+
+    private fun _positionEquatorialSys(): EquatorialSys {
         return when (target) {
-            is SolarSystem -> positionEclipticSys!!.toEquatorialSys(localDateTime)
+            is SolarSystem -> _positionEclipticSys!!.toEquatorialSys(localDateTime)
             is Constellation -> target.position
             else -> throw Exception("invalid: $target")
         }
     }
 
-    private val positionHorizonSys: HorizonSys by lazy {
-        positionHorizonSys()
+    /**
+     * Azimuth: Degrees
+     *
+     * Altitude: Degrees
+     */
+    fun horizonPosition(): Pair<AstronomicalUnit?, AstronomicalUnit?> {
+        return _positionHorizonSys.run {
+            Pair(azimuth.toUnit(), altitude.toUnit())
+        }
     }
 
-    private fun positionHorizonSys(): HorizonSys {
+    private val _positionHorizonSys: HorizonSys by lazy {
+        _positionHorizonSys()
+    }
+
+    private fun _positionHorizonSys(): HorizonSys {
         return when (target) {
-            is SolarSystem -> positionEquatorialSys.correctParallax(
-                distance!!.toEarthRadii(),
+            is SolarSystem -> _positionEquatorialSys.correctParallax(
+                _distance!!.toEarthRadii(),
                 Observer.lat(),
-                (siderealTime - positionEquatorialSys.rightAscension).toDegrees(),
+                (siderealTime - _positionEquatorialSys.rightAscension).toDegrees(),
                 Observer.altitude.toDouble()
             ).toHorizonSys(Observer.lat(), siderealTime)
-            is Constellation -> positionEquatorialSys.toHorizonSys(Observer.lat(), siderealTime)
+            is Constellation -> _positionEquatorialSys.toHorizonSys(Observer.lat(), siderealTime)
             else -> throw Exception("invalid: $target")
         }
     }
 
-    private val distance: Distance? by lazy {
-        distance()
+    fun distance() = _distance
+
+    private val _distance: Distance? by lazy {
+        _distance()
     }
 
-    private fun distance(): Distance? {
+    private fun _distance(): Distance? {
         return when (target) {
             is SolarSystem -> target.distance
             is Constellation -> null
