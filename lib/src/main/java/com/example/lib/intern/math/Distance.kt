@@ -13,7 +13,7 @@ data class Distance private constructor(private val value: Long) { //value in me
         fun fromEarthRadii(v: Int) = Distance((v * 6_371_009).toLong())
     }
     fun toMeter() = value
-    fun toAU() = value / 149_597_870_700
-    fun toKm() = value / 1000
+    fun toAU() = value / 149_597_870_700.0
+    fun toKm() = value / 1000.0
     fun toEarthRadii() = value / 6_371_008.8
 }
