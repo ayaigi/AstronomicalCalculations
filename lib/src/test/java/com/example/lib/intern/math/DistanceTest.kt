@@ -1,7 +1,5 @@
 package com.example.lib.intern.math
 
-import org.junit.Assert.*
-
 import org.junit.Test
 
 class DistanceTest {

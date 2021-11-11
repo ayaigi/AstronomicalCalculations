@@ -39,10 +39,10 @@ class AstronomicalResults internal constructor(
      *
      * Lambda: Degrees
      */
-    fun eclipticPosition(): Pair<AstronomicalUnit?, AstronomicalUnit?> {
+    fun eclipticPosition(): Pair<AstronomicalUnit, AstronomicalUnit>? {
         return _positionEclipticSys?.run {
             Pair(betta.toUnit(), lambda.toUnit())
-        } ?: Pair(null, null)
+        } //Pair(null, null)
     }
 
     private val _positionEclipticSys: EclipticSys? by lazy {
@@ -62,7 +62,7 @@ class AstronomicalResults internal constructor(
      *
      * Declination: Degrees
      */
-    fun equatorialPosition(): Pair<AstronomicalUnit?, AstronomicalUnit?> {
+    fun equatorialPosition(): Pair<AstronomicalUnit, AstronomicalUnit> {
         return _positionEquatorialSys.run {
             Pair(rightAscension.toUnit(), declination.toUnit())
         }
@@ -85,7 +85,7 @@ class AstronomicalResults internal constructor(
      *
      * Altitude: Degrees
      */
-    fun horizonPosition(): Pair<AstronomicalUnit?, AstronomicalUnit?> {
+    fun horizonPosition(): Pair<AstronomicalUnit, AstronomicalUnit> {
         return _positionHorizonSys.run {
             Pair(azimuth.toUnit(), altitude.toUnit())
         }
@@ -98,7 +98,7 @@ class AstronomicalResults internal constructor(
     private fun _positionHorizonSys(): HorizonSys {
         return when (target) {
             is SolarSystem -> _positionEquatorialSys.correctParallax(
-                _distance!!.toEarthRadii(),
+                _distance!!.toEarthRadii().toDouble(),
                 Observer.lat(),
                 (siderealTime - _positionEquatorialSys.rightAscension).toDegrees(),
                 Observer.altitude.toDouble()
