@@ -111,7 +111,7 @@ internal class Moon (override val dateTime: LocalDateTime) : SolarSystem {
 
     override fun riseAndSet(lat: Degrees, lon: Degrees, altitude: Double): EquatorialSys.riseAndSet {
         val (riSe0, riSe24) = run {
-            val r = distance.toEarthRadii()
+            val r = distance.toEarthRadii().toDouble()
             val date0 = dateTime.toLocalDate().atStartOfDay()
             val date24 = dateTime.toLocalDate().atTime(12,0)
 
