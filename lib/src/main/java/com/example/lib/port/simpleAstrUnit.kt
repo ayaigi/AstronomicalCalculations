@@ -2,13 +2,14 @@ package com.example.lib.port
 
 import com.example.lib.intern.units.Degrees
 import com.example.lib.intern.units.blueprint.AstronomicalUnit
+import com.example.lib.intern.units.blueprint.UnitFormat
 
 @Deprecated(message = "", level = DeprecationLevel.WARNING)
 public class simpleAstrUnit internal constructor(val milliSecs: Long){
     fun value() = milliSecs
     fun intValue() = milliSecs.toInt()
     fun toDecimal() = AstronomicalUnit(milliSecs).toDecimal()
-    fun format(pattern: String) = AstronomicalUnit(milliSecs).toString(pattern)
+    fun format(pattern: String) = AstronomicalUnit(milliSecs).toString(UnitFormat(pattern))
     override fun toString(): String {
         return format("D.H")
     }

@@ -43,11 +43,19 @@ object UnitFormats {
     /**
      * Example: 56° 37m
      */
-    val INTd_MINm = UnitFormat("D M")
+    val INTd_MINm = UnitFormat("D° Mm")
+    /**
+     * Example: 56° 37m 32s
+     */
+    val INTd_MINm_SECs = UnitFormat("D° Mm Ss")
+    /**
+     * Example: 56° 37m 32s
+     */
+    val INTh_MINm_SECs = UnitFormat("Dh Mm Ss")
     /**
      * Example: 16h 37m
      */
-    val INTh_MINm = UnitFormat("D M")
+    val INTh_MINm = UnitFormat("Dh Mm")
 }
 class UnitFormat(val pattern: String) {
     companion object {
