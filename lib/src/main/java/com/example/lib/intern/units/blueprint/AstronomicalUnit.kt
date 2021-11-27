@@ -99,48 +99,7 @@ open class AstronomicalUnit internal constructor(override var value: Long) : ast
         return abs(value)
     }
 
-    /**
-     * 'D' -> Int
-     *
-     * 'H' -> Fraction
-     *
-     * 'M' -> Minute
-     *
-     * 'S' -> Second
-     *
-     * 'Z' -> Millisecond
-     */
-    fun toString(pattern: String): String {
-        val DMMs: DMMs by lazy {
-            toDMMs()
-        }
-        val deci: Double by lazy {
-            toDecimal()
-        }
-
-        fun int() = deci.toInt()
-        fun frac() = (deci - int()).toString().split('.')[1]
-
-        //val match = "DHMSZ"
-        val arr = pattern.toCharArray()
-        var final = mutableListOf<String>()
-
-        for (char in arr) {
-            final.add(
-                when (char) {
-                    'D' -> int().toString()
-                    'H' -> frac().toString()
-                    'M' -> DMMs.min.toString()
-                    'S' -> (DMMs.milliSec / 1000).toString()
-                    'Z' -> (DMMs.milliSec).toString()
-                    else -> char.toString()
-                }
-            )
-
-        }
-
-        return final.joinToString(separator = "")
-    }
+    fun toString(pattern: UnitFormat): String = unitFormat(pattern, this)
 
     /**
      * int, min, milliSec

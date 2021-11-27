@@ -1,6 +1,7 @@
 package com.example.lib.intern.units
 import com.example.lib.intern.units.blueprint.astrUnitInter
 import com.example.lib.intern.units.blueprint.AstronomicalUnit
+import com.example.lib.intern.units.blueprint.UnitFormat
 import com.example.lib.intern.units.blueprint.toLongExept
 import java.lang.Exception
 import kotlin.math.*
@@ -12,7 +13,7 @@ class Degrees(override var value: Long) : AstronomicalUnit(value), astrUnitInter
     private constructor(value: Double) : this(value.toLongExept())
 
     override fun toString(): String {
-        return super.toString("D.H")
+        return super.toString(UnitFormat.pattern("D.H"))
     }
 
     internal companion object {
