@@ -1,6 +1,6 @@
 package com.example.lib.port
 
-import com.example.lib.intern.target.TargetChoose
+import com.example.lib.intern.target.Target
 import com.example.lib.intern.units.blueprint.AstronomicalUnit
 import java.time.OffsetDateTime
 
@@ -23,5 +23,5 @@ class Astronomy private constructor(val OffsetDateTime: OffsetDateTime, val Obse
     /**
      * use SolarSystemTarget or Companion by ID
      */
-    fun calc(target: TargetChoose) = AstronomicalResults(target, OffsetDateTime, Observer)
+    fun calc(target: Target) = AstronomicalResults(target, OffsetDateTime, Observer)
 }

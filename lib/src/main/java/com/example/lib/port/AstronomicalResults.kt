@@ -6,7 +6,7 @@ import com.example.lib.intern.coorSystems.HorizonSys
 import com.example.lib.intern.solarSystem.SolarSystem
 import com.example.lib.intern.coorSystems.EquatorialSys
 import com.example.lib.intern.math.Distance
-import com.example.lib.intern.target.TargetChoose
+import com.example.lib.intern.target.Target
 import com.example.lib.intern.target.idToClass
 import com.example.lib.intern.timeSystems.SiderealTime
 import com.example.lib.intern.units.blueprint.AstronomicalUnit
@@ -14,7 +14,7 @@ import java.time.OffsetDateTime
 import java.time.OffsetTime
 
 class AstronomicalResults internal constructor(
-    targetId: TargetChoose,
+    targetId: Target,
     val OffsetDateTime: OffsetDateTime,
     val Observer: Observer
 ) {
