@@ -6,12 +6,17 @@ class DistanceTest {
 
     @Test
     fun t() {
-        val au1 = 10
-        val dis = Distance.fromKm(au1)
-        val au2 = dis.toKm()
-        res("au1: $au1\nau2: $au2")
+        val d = Distance.run{
+            listOf(fromAU(0.05), fromAU(0.4), fromAU(1.0), fromAU(1.5), fromAU(15))
+        }
+        val s = d.map { it.toString() }
+
+        println(s)
     }
-    fun res(v: String){
-        println("------\n------\n------\n$v\n------\n------\n------")
+    @Test
+    fun f() {
+        val d = Distance.fromAU(1).lightTime()
+
+        println(d)
     }
 }
