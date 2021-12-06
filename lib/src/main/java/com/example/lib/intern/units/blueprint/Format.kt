@@ -37,6 +37,10 @@ internal fun unitFormat(pattern: UnitFormat, v: AstronomicalUnit) : String{
 
 object UnitFormats {
     /**
+     * Example: 56° 37''
+     */
+    val INTOMIN__ = UnitFormat("D° M''")
+    /**
      * Example: 56 37
      */
     val INT_MIN = UnitFormat("D M")
@@ -57,7 +61,7 @@ object UnitFormats {
      */
     val INTh_MINm = UnitFormat("Dh Mm")
 }
-class UnitFormat(val pattern: String) {
+class UnitFormat internal constructor(val pattern: String) {
     companion object {
         /**
          * 'D' -> Int
