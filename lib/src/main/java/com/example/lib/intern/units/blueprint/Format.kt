@@ -2,8 +2,8 @@ package com.example.lib.intern.units.blueprint
 
 import com.example.lib.intern.units.DMMs
 
-internal fun unitFormat(pattern: UnitFormat, v: AstronomicalUnit) : String{
-    return v.run{
+internal fun unitFormat(pattern: UnitFormat, v: AstronomicalUnit): String {
+    return v.run {
         val DMMs: DMMs by lazy {
             toDMMs()
         }
@@ -29,39 +29,47 @@ internal fun unitFormat(pattern: UnitFormat, v: AstronomicalUnit) : String{
                     else -> char.toString()
                 }
             )
-
+        }
+        when (pattern.type) {
+            1 -> {
+                final = final.map {
+                    if (it == "°") "h"
+                    else it
+                }.toMutableList()
+            }
+            3 -> {
+                if (v.value > 0) final.add("N")
+                else if (v.value < 0) final.add("S")
+            }
+            2 -> {
+                if (v.value > 0) final.add("E")
+                else if (v.value < 0) final.add("W")
+            }
         }
         final.joinToString(separator = "")
     }
 }
 
+/*
 object UnitFormats {
     /**
      * Example: 56° 37''
      */
-    val INTOMIN__ = UnitFormat("D° M''")
+    val INT_Z_MIN__ = ("D° M''")
     /**
      * Example: 56 37
      */
-    val INT_MIN = UnitFormat("D M")
+    val INT_MIN = ("D M")
     /**
      * Example: 56° 37m
      */
-    val INTd_MINm = UnitFormat("D° Mm")
+    val INT_Z_MINm = ("D° Mm")
     /**
      * Example: 56° 37m 32s
      */
-    val INTd_MINm_SECs = UnitFormat("D° Mm Ss")
-    /**
-     * Example: 56° 37m 32s
-     */
-    val INTh_MINm_SECs = UnitFormat("Dh Mm Ss")
-    /**
-     * Example: 16h 37m
-     */
-    val INTh_MINm = UnitFormat("Dh Mm")
 }
-class UnitFormat internal constructor(val pattern: String) {
+ */
+class UnitFormat internal constructor(val pattern: String, val type: Int) {
     companion object {
         /**
          * 'D' -> Int
@@ -74,6 +82,29 @@ class UnitFormat internal constructor(val pattern: String) {
          *
          * 'Z' -> Millisecond
          */
-        fun pattern(v: String) = UnitFormat(v)
+        fun pattern(v: String, type: Int) = UnitFormat(v, type)
+
+        /**
+         * Example: 56° 37''
+         */
+        val INT_Z_MIN__ = ("D° M''")
+
+        /**
+         * Example: 56 37
+         */
+        val INT_MIN = ("D M")
+
+        /**
+         * Example: 56° 37m
+         */
+        val INT_Z_MINm = ("D° Mm")
+
+        /**
+         * Example: 56° 37m 32s
+         */
+        val type_Latitude = 3
+        val type_Longitude = 2
+        val type_Time = 1
+        val type_None = 0
     }
 }

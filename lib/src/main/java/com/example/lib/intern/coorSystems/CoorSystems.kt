@@ -22,8 +22,8 @@ open class CoorSystems {
         return "lon: $lon, lat: $lat"
     }
     internal fun compareString(): String {
-        val lat = "${lat.toDecimal()}; ${lat.toString(UnitFormat("D° Mm Ss"))}"
-        val lon = "${lon.toDecimal()}; ${lon.toString(UnitFormat("D° Mm Ss"))}"
+        val lat = "${lat.toDecimal()}; ${lat.toString(UnitFormat("D° Mm Ss", UnitFormat.type_Latitude))}"
+        val lon = "${lon.toDecimal()}; ${lon.toString(UnitFormat("D° Mm Ss", UnitFormat.type_Longitude))}"
         return "lat: $lat \nlon: $lon"
     }
     internal fun compare(): List<Int> {

@@ -8,7 +8,10 @@ class FormatKtTest{
 
     @Test
     fun unit(){
-        val a = AstronomicalUnit.of(12, 13, 41).toString(UnitFormats.INTOMIN__)
+        val uf = UnitFormat.run{
+            UnitFormat(INT_Z_MIN__, type_Time)
+        }
+        val a = AstronomicalUnit.of(12, 13, 41).toString(uf)
         Truth.assertThat(a).isEqualTo("12° 13''")
         println(a)
     }

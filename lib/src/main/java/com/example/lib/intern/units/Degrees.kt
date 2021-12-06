@@ -13,7 +13,7 @@ class Degrees(override var value: Long) : AstronomicalUnit(value), astrUnitInter
     private constructor(value: Double) : this(value.toLongExept())
 
     override fun toString(): String {
-        return super.toString(UnitFormat.pattern("D.H"))
+        return super.toString(UnitFormat.pattern("D.H", UnitFormat.type_None))
     }
 
     internal companion object {
