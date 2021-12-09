@@ -20,7 +20,7 @@ class AstronomicalResults internal constructor(
 ) {
     private val localDateTime = OffsetDateTime.toUTC()
     private val target = idToClass(targetId.id, localDateTime)
-    private val siderealTime = SiderealTime.fromOffsetDateTime(OffsetDateTime, Observer.lon())
+    internal val siderealTime = SiderealTime.fromOffsetDateTime(OffsetDateTime, Observer.lon())
 
     /**
      * Rise, Set
@@ -45,7 +45,7 @@ class AstronomicalResults internal constructor(
         } //Pair(null, null)
     }
 
-    private val _positionEclipticSys: EclipticSys? by lazy {
+    internal val _positionEclipticSys: EclipticSys? by lazy {
         _positionEclipticSys()
     }
 
@@ -68,7 +68,7 @@ class AstronomicalResults internal constructor(
         }
     }
 
-    private val _positionEquatorialSys: EquatorialSys by lazy {
+    internal val _positionEquatorialSys: EquatorialSys by lazy {
         _positionEquatorialSys()
     }
 

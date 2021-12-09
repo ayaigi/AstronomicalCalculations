@@ -26,7 +26,7 @@ data class EquatorialSys(val rightAscension: Hours, val declination: Degrees): C
         if(hA.sin() > 0) {
             azimuth = Degrees.fromDecimal(360) - azimuth
         }
-        return HorizonSys(altitude, azimuth)
+        return HorizonSys(azimuth, altitude)
     }
     internal fun toEclipticSys(dateTime: LocalDateTime): EclipticSys {
         val rightAscension = rightAscension.toDegrees()
@@ -46,7 +46,7 @@ data class EquatorialSys(val rightAscension: Hours, val declination: Degrees): C
             val x = rightAscension.cos()
             Degrees.rmvAmbiguity(y, x)
         }
-        return EclipticSys(Betta, Lambda)
+        return EclipticSys(Lambda, Betta)
     }
     internal fun riseAndSet(lat: Degrees, lon: Degrees): riseAndSet {
         val rightAscension = rightAscension.toDegrees()

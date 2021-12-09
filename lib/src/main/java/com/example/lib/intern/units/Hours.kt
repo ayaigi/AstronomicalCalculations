@@ -24,6 +24,8 @@ open class Hours(override var value: Long) : AstronomicalUnit(value), astrUnitIn
         }
         fun fromDecimal(v: Double) = Hours(v * (60 * 60 * 1000))
         fun fromDecimal(v: Int) = Hours(v * (60 * 60 * 1000).toDouble())
+        fun fromDecimal(v: Float) = Hours((v * (60 * 60 * 1000)).toDouble())
+        fun fromSecond(v: Long) = Hours(v * 1000)
     }
     internal fun averageCircle(v: Hours) = (averageCircle(toDegrees())).toHours()
     internal fun averageStartEnd(v: Hours) = (averageStartEnd(toDegrees())).toHours()
