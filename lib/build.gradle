@@ -33,6 +33,8 @@ android {
 }
 
 dependencies {
+    //Vectors and Conversion
+    implementation 'com.github.ayaigi:Vectors:b607087050'
 
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.appcompat:appcompat:1.3.1'

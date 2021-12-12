@@ -31,20 +31,27 @@ internal fun unitFormat(pattern: UnitFormat, v: AstronomicalUnit): String {
             )
         }
         when (pattern.type) {
+            0 -> {
+                final = final.map {
+                    if (it == "°") ""
+                    else it
+                }.toMutableList()
+            }
             1 -> {
                 final = final.map {
                     if (it == "°") "h"
                     else it
                 }.toMutableList()
             }
-            3 -> {
-                if (v.value > 0) final.add("N")
-                else if (v.value < 0) final.add("S")
-            }
             2 -> {
                 if (v.value > 0) final.add("E")
                 else if (v.value < 0) final.add("W")
             }
+            3 -> {
+                if (v.value > 0) final.add("N")
+                else if (v.value < 0) final.add("S")
+            }
+            4 -> {}
         }
         final.joinToString(separator = "")
     }
@@ -87,7 +94,7 @@ class UnitFormat internal constructor(val pattern: String, val type: Int) {
         /**
          * Example: 56° 37''
          */
-        val INT_Z_MIN__ = ("D° M''")
+        val INT_X_MIN__ = ("D° M''")
 
         /**
          * Example: 56 37
@@ -97,11 +104,12 @@ class UnitFormat internal constructor(val pattern: String, val type: Int) {
         /**
          * Example: 56° 37m
          */
-        val INT_Z_MINm = ("D° Mm")
+        val INT_X_MINm = ("D° Mm")
 
         /**
          * Example: 56° 37m 32s
          */
+        val type_Degree = 4
         val type_Latitude = 3
         val type_Longitude = 2
         val type_Time = 1
